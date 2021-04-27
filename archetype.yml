@@ -1,0 +1,71 @@
+---
+desciption: "ElasticMQ (SQS) Server"
+authors: ["Jimmie Fulton <jimmie.fulton@gmail.com"]
+languages: ["Java"]
+frameworks: ["Spring", "Spring Boot", "ElasticMQ"]
+tags: ["elasticmq", "aws", "sqs"]
+
+script:
+
+  - set:
+      ###############################
+      # Prompted Variables
+      ###############################
+      prefix:
+        prompt: "Project Name:"
+
+      suffix:
+        prompt: "Project Suffix:"
+        default: "Elasticmq"
+
+      group_id:
+        prompt: "Maven GroupId"
+        default: "com.example"
+
+      author:
+        prompt: "Author Name:"
+
+      queues:
+        prompt: "Queues:"
+        type: list
+
+      port:
+        default: 9324
+        type: int
+
+      ###############################
+      # Derived/Implicit Variables
+      ###############################
+      PrefixName:
+        value: "{{ prefix | pascal_case }}"
+
+      prefixName:
+        value: "{{ prefix | camel_case }}"
+
+      prefix_name:
+        value: "{{ prefix | snake_case }}"
+
+      prefix-name:
+        value: "{{ prefix | train_case }}"
+
+      SuffixName:
+        value: "{{ suffix | pascal_case }}"
+
+      ProjectTitle:
+        value: "{{ prefix | title_case }} {{ suffix | title_case }}"
+
+      root_package:
+        value: "{{ group_id }}.{{ prefix | package_case }}.{{ SuffixName | package_case }}"
+
+      root_directory:
+        value: "{{ root_package | package_to_directory }}"
+
+      property_prefix:
+        value: "{{ prefix | train_case }}.{{ SuffixName | train_case }}"
+
+      artifact_id:
+        value: "{{ prefix | train_case }}-{{ SuffixName | train_case }}-server"
+
+  - render:
+      directory:
+        source: contents

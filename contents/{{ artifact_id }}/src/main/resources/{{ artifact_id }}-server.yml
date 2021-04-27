@@ -1,0 +1,6 @@
+
+elasticmq:
+  port: {{ port }}
+  region: elasticmq
+  queues:{% for queue in queues %}
+    - {{ queue }}{% endfor %}
